@@ -13,6 +13,7 @@ import com.techfest.queuer.domain.Appointment;
 @Transactional
 public interface AppointmentMapper {
 
-	  @Select("SELECT APPOINTMENT_ID FROM APPOINTMENTS WHERE PATIENT_ID = #{patientId}")
-	  public long findByPatientId(@Param("patientId") String patientId);
+	
+	  @Select("SELECT APPOINTMENT_ID FROM APPOINTMENT WHERE PATIENT_ID = #{patientId} ORDER BY START_DATE DESC")
+	  public long findPatientBookings(@Param("patientId") String patientId);
 }

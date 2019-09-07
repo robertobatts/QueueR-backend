@@ -34,3 +34,4 @@ build/
 lambda/newslotsnotifier
 lambda/newslotsnotifier.zip
 *.exe
+src/main/resources/application.properties

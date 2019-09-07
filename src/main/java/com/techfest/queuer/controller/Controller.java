@@ -23,8 +23,8 @@ import com.techfest.queuer.resource.assembler.AppointmentResourceAssembler;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value = "/queue", produces = "application/json")
-public class QueueController {
+@RequestMapping(value = "/queuer", produces = "application/json")
+public class Controller {
 	
 	@Autowired
 	AppointmentResourceAssembler assembler;
@@ -32,12 +32,12 @@ public class QueueController {
 	@Resource(name = "appointmentMapper")
 	private AppointmentMapper appointmentMapper;
 	
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/mybookings", method = RequestMethod.GET)
     public ResponseEntity<Collection<AppointmentResource>> findAllOrders() {
         List<Appointment> apps = new ArrayList<Appointment>();
         Appointment app = new Appointment();
         app.setTimestamp(new Date());
-        app.setAppointmentId(appointmentMapper.findByPatientId("1"));
+        app.setAppointmentId(appointmentMapper.findPatientBookings("1"));
         apps.add(app);
         return new ResponseEntity<>(assembler.toResourceCollection(apps), HttpStatus.OK);
     }

@@ -13,8 +13,10 @@ import (
 func Handle() {
 	notifications := dbutil.GetPatientNotification()
 
-	for _, notification := range notifications {
-		SendMessage(BuildMessage(notification.Appointment), notification.PhoneNumber)
+	if notifications != nil {
+		for _, notification := range notifications {
+			SendMessage(BuildMessage(notification.Appointment), notification.PhoneNumber)
+		}
 	}
 
 }

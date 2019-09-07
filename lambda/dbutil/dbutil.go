@@ -1,6 +1,7 @@
 package dbutil
 
 import (
+	"fmt"
 	"time"
 	"database/sql"
 	 _ "github.com/go-sql-driver/mysql"
@@ -40,11 +41,12 @@ var patientsNotificationQuery =
 
 func GetPatientNotification() []Notification {
 
-	db, err := sql.Open("mysql", "root:localadmin@tcp(localhost:3306)/dbqueuer?parseTime=true")
+	db, err := sql.Open("mysql", "doadmin:buyhpg4cdhnsd3zj@tcp(db-mysql-fra1-72985-do-user-4087706-0.db.ondigitalocean.com:25060)/defaultdb?parseTime=true")
 
 	// if there is an error opening the connection, handle it
 	if err != nil {
-			panic(err.Error())
+		fmt.Println(err.Error())
+		panic(err.Error())
 	}
 
 	results, err := db.Query(patientsNotificationQuery)
@@ -66,6 +68,7 @@ func GetPatientNotification() []Notification {
 			}
 			// and then print out the tag's Name attribute
 			notifs = append(notifs, notif)
+			fmt.Println(notif)
 		}
 	}
 	defer db.Close()
