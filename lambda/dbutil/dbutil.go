@@ -15,6 +15,7 @@ type Appointment struct {
 	CancelDate 			time.Time		`json:CANCEL_DATE,omitempty`
 	PatientID				int64				`json:PATIENT_ID`
 	VisitType				string			`json:VISIT_TYPE,omitempty`
+	CanSwitchTo			int64				`json:CAN_SWITCH_TO,omitempty`
 }
 
 type Notification struct {
@@ -24,7 +25,7 @@ type Notification struct {
 }
 
 var patientsNotificationQuery = 
-	`SELECT CO.PHONE_NUMBER, CANC.START_DATE, CANC.DURATION FROM APPOINTMENT APP
+	`SELECT CO.PHONE_NUMBER, CANC.START_DATE, CANC.DURATION, APP.APPOINTMENT_ID, CANC.APPOINTMENT_ID FROM APPOINTMENT APP
 	JOIN CONTACT CO ON APP.PATIENT_ID = CO.PATIENT_ID
 	JOIN (
 		SELECT * FROM APPOINTMENT
@@ -43,7 +44,6 @@ func GetPatientNotification() []Notification {
 
 	db, err := sql.Open("mysql", "doadmin:buyhpg4cdhnsd3zj@tcp(db-mysql-fra1-72985-do-user-4087706-0.db.ondigitalocean.com:25060)/defaultdb?parseTime=true")
 
-	// if there is an error opening the connection, handle it
 	if err != nil {
 		fmt.Println(err.Error())
 		panic(err.Error())
@@ -60,12 +60,13 @@ func GetPatientNotification() []Notification {
 	if results != nil {
 		for results.Next() {
 			notif := Notification{}
-			notif.Appointment = Appointment{}
+			app := Appointment{}
 			// for each row, scan the result into our tag composite object
-			err = results.Scan(&notif.PhoneNumber, &notif.Appointment.StartDate, &notif.Appointment.Duration)
+			err = results.Scan(&notif.PhoneNumber, &app.StartDate, &app.Duration, &app.AppointmentID, &app.CanSwitchTo)
 			if err != nil {
-					panic(err.Error()) // proper error handling instead of panic in your app
+					panic(err.Error()) 
 			}
+			notif.Appointment = app
 			// and then print out the tag's Name attribute
 			notifs = append(notifs, notif)
 			fmt.Println(notif)
@@ -74,4 +75,26 @@ func GetPatientNotification() []Notification {
 	defer db.Close()
 
 	return notifs
+}
+
+var updateSwitchAppointment = `
+	UPDATE APPOINTMENT
+	SET CAN_SWITCH_TO = ?
+	WHERE APPOINTMENT_ID = ?
+`
+
+func UpdateAppointment(appointment Appointment) {
+	db, err := sql.Open("mysql", "doadmin:buyhpg4cdhnsd3zj@tcp(db-mysql-fra1-72985-do-user-4087706-0.db.ondigitalocean.com:25060)/defaultdb?parseTime=true")
+
+	// if there is an error opening the connection, handle it
+	if err != nil {
+		fmt.Println(err.Error())
+		panic(err.Error())
+	}
+
+	_, err = db.Exec(updateSwitchAppointment, appointment.CanSwitchTo, appointment.AppointmentID)
+
+	if err != nil {
+		panic(err.Error())
+	}
 }

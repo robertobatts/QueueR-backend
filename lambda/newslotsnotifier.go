@@ -16,6 +16,7 @@ func Handle() {
 	if notifications != nil {
 		for _, notification := range notifications {
 			SendMessage(BuildMessage(notification.Appointment), notification.PhoneNumber)
+			dbutil.UpdateAppointment(notification.Appointment)
 		}
 	}
 
@@ -23,7 +24,7 @@ func Handle() {
 
 func BuildMessage(appointment dbutil.Appointment) string {
 	fmtTime := appointment.StartDate.Format("2006-01-02 15:04:05")
-	return "A previously occupied slot is now available at " + fmtTime
+	return "A previously occupied slot is now available at " + fmtTime + ". If you prefer this time slot, you can change your booking on the app!"
 }
 
 func SendMessage(message string, phoneNumber string) {
