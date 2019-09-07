@@ -33,3 +33,4 @@ build/
 *.class
 lambda/newslotsnotifier
 lambda/newslotsnotifier.zip
+*.exe
