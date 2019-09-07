@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techfest.queuer.domain.Appointment;
@@ -33,12 +35,15 @@ public class Controller {
 	private AppointmentMapper appointmentMapper;
 	
     @RequestMapping(value = "/mybookings", method = RequestMethod.GET)
-    public ResponseEntity<Collection<AppointmentResource>> findAllOrders() {
-        List<Appointment> apps = new ArrayList<Appointment>();
-        Appointment app = new Appointment();
-        app.setTimestamp(new Date());
-        app.setAppointmentId(appointmentMapper.findPatientBookings("1"));
-        apps.add(app);
+    public ResponseEntity<Collection<AppointmentResource>> getBookings(@RequestParam(name = "id") String patientId) {
+        List<Appointment> apps = appointmentMapper.getPatientBookings(patientId);
+        
+        for (Appointment app : apps) {
+        	if (app.getCanSwitchTo() != 0) {
+        		app.setSwitchableAppointment(appointmentMapper.getAppointmentById(app.getCanSwitchTo()));
+        	}
+         }
+        
         return new ResponseEntity<>(assembler.toResourceCollection(apps), HttpStatus.OK);
     }
 

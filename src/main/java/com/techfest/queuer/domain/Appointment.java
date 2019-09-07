@@ -5,9 +5,13 @@ import java.util.Date;
 public class Appointment {
 	
 	private long appointmentId;
-	private Date timestamp;
-	private Patient patient;
-	private boolean booked;
+	private Date startDate;
+	private int duration;
+	private long patientId;
+	private String visitType;
+	private Date cancelDate;
+	private Long canSwitchTo;
+	private Appointment switchableAppointment;
 	
 	public long getAppointmentId() {
 		return appointmentId;
@@ -15,24 +19,46 @@ public class Appointment {
 	public void setAppointmentId(long appointmentId) {
 		this.appointmentId = appointmentId;
 	}
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public Patient getPatient() {
-		return patient;
+	public int getDuration() {
+		return duration;
 	}
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
-	public boolean isBooked() {
-		return booked;
+	public long getPatientId() {
+		return patientId;
 	}
-	public void setBooked(boolean booked) {
-		this.booked = booked;
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
 	}
-	
-
+	public String getVisitType() {
+		return visitType;
+	}
+	public void setVisitType(String visitType) {
+		this.visitType = visitType;
+	}
+	public Date getCancelDate() {
+		return cancelDate;
+	}
+	public void setCancelDate(Date cancelDate) {
+		this.cancelDate = cancelDate;
+	}
+	public Long getCanSwitchTo() {
+		return canSwitchTo;
+	}
+	public void setCanSwitchTo(Long canSwitchTo) {
+		this.canSwitchTo = canSwitchTo;
+	}
+	public Appointment getSwitchableAppointment() {
+		return switchableAppointment;
+	}
+	public void setSwitchableAppointment(Appointment switchableAppointment) {
+		this.switchableAppointment = switchableAppointment;
+	}
 }

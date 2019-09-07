@@ -23,7 +23,8 @@ public interface AppointmentMapper {
 		      @Result(property = "startDate", column = "START_DATE"),
 		      @Result(property = "patientId", column="PATIENT_ID"),
 		      @Result(property = "visitType", column="VISIT_TYPE"),
-		      @Result(property = "cancelDate", column="CANCEL_DATE")
+		      @Result(property = "cancelDate", column="CANCEL_DATE"),
+		      @Result(property = "canSwitchTo", column="CAN_SWITCH_TO")
 		    })
 	@Select("SELECT * FROM APPOINTMENT WHERE PATIENT_ID = #{patientId} ORDER BY START_DATE DESC")
 	public List<Appointment> getPatientBookings(@Param("patientId") String patientId);
@@ -36,5 +37,5 @@ public interface AppointmentMapper {
 		      @Result(property = "cancelDate", column="CANCEL_DATE")
 		    })
 	@Select("SELECT * FROM APPOINTMENT WHERE APPOINTMENT_ID = #{appointmentId}")
-	public Appointment getAppointmentById(@Param("appointmentId") String appointmentId);
+	public Appointment getAppointmentById(@Param("appointmentId") long appointmentId);
 }

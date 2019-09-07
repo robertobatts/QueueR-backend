@@ -11,4 +11,5 @@ public class AppointmentResource {
 	public AppointmentResource(Appointment appointment) {
 		this.appointment = appointment;
 	}
+
 }
