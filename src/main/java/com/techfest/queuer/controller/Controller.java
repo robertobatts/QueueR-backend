@@ -39,7 +39,7 @@ public class Controller {
         List<Appointment> apps = appointmentMapper.getPatientBookings(patientId);
         
         for (Appointment app : apps) {
-        	if (app.getCanSwitchTo() != 0) {
+        	if (app.getCanSwitchTo() != null) {
         		app.setSwitchableAppointment(appointmentMapper.getAppointmentById(app.getCanSwitchTo()));
         	}
          }

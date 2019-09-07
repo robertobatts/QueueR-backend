@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Appointment {
 	
-	private long appointmentId;
+	private Long appointmentId;
 	private Date startDate;
-	private int duration;
-	private long patientId;
+	private Integer duration;
+	private Long patientId;
 	private String visitType;
 	private Date cancelDate;
 	private Long canSwitchTo;
