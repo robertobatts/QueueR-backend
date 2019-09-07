@@ -31,3 +31,5 @@ build/
 .vscode/
 
 *.class
+lambda/newslotsnotifier
+lambda/newslotsnotifier.zip
