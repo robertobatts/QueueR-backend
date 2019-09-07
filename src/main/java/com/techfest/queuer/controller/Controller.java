@@ -46,5 +46,15 @@ public class Controller {
         
         return new ResponseEntity<>(assembler.toResourceCollection(apps), HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/cancel", method = RequestMethod.GET)
+    public void cancelBooking(@RequestParam(name = "id") long appointmentId) {
+        appointmentMapper.cancelAppointment(appointmentId);
+    }
+    
+    @RequestMapping(value = "/switch", method = RequestMethod.GET)
+    public void cancelBooking(@RequestParam(name = "id") long appointmentId, @RequestParam(name = "newDate") Date newDate) {
+        appointmentMapper.changeDate(appointmentId, newDate);
+    }
 
 }

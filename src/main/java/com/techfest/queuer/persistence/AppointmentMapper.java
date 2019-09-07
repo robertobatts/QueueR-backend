@@ -1,5 +1,6 @@
 package com.techfest.queuer.persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Many;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,4 +40,10 @@ public interface AppointmentMapper {
 		    })
 	@Select("SELECT * FROM APPOINTMENT WHERE APPOINTMENT_ID = #{appointmentId}")
 	public Appointment getAppointmentById(@Param("appointmentId") long appointmentId);
+	
+	@Update("UPDATE APPOINTMENT SET CANCEL_DATE = CURRENT_TIMESTAMP() WHERE APPOINTMENT_ID = #{appointmentId}")
+	public void cancelAppointment(@Param("appointmentId") long appointmentId);
+	
+	@Update("UPDATE APPOINTMENT SET START_DATE = #{newDate} WHERE APPOINTMENT_ID = #{appointmentId}")
+	public void changeDate(@Param("appointmentId") long appointmentId, @Param("newDate") Date newDate);
 }
