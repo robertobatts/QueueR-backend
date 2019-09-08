@@ -27,7 +27,7 @@ import com.techfest.queuer.resource.assembler.AppointmentResourceAssembler;
 @RestController
 @RequestMapping(value = "/queuer", produces = "application/json")
 public class Controller {
-	
+	 	
 	@Autowired
 	AppointmentResourceAssembler assembler;
 	
@@ -48,13 +48,16 @@ public class Controller {
     }
     
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
-    public void cancelBooking(@RequestParam(name = "id") long appointmentId) {
+    public ResponseEntity<AppointmentResource> cancelBooking(@RequestParam(name = "id") long appointmentId) {
         appointmentMapper.cancelAppointment(appointmentId);
+        return new ResponseEntity<>(assembler.toResource(null), HttpStatus.OK);
     }
     
     @RequestMapping(value = "/switch", method = RequestMethod.GET)
-    public void cancelBooking(@RequestParam(name = "id") long appointmentId, @RequestParam(name = "newDate") Date newDate) {
-        appointmentMapper.changeDate(appointmentId, newDate);
+    public ResponseEntity<AppointmentResource> cancelBooking(@RequestParam(name = "id") long appointmentId, @RequestParam(name = "switchId") long switchId) {
+        Date newDate = appointmentMapper.getDate(switchId);
+    	appointmentMapper.changeDate(appointmentId, newDate);
+        return new ResponseEntity<>(assembler.toResource(null), HttpStatus.OK);
     }
 
 }

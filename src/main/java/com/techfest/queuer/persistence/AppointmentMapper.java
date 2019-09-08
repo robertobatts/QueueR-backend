@@ -28,7 +28,7 @@ public interface AppointmentMapper {
 		      @Result(property = "cancelDate", column="CANCEL_DATE"),
 		      @Result(property = "canSwitchTo", column="CAN_SWITCH_TO")
 		    })
-	@Select("SELECT * FROM APPOINTMENT WHERE PATIENT_ID = #{patientId} ORDER BY START_DATE DESC")
+	@Select("SELECT * FROM APPOINTMENT WHERE PATIENT_ID = #{patientId} AND CANCEL_DATE IS NULL ORDER BY START_DATE DESC")
 	public List<Appointment> getPatientBookings(@Param("patientId") String patientId);
 	
 	@Results(value = {
@@ -41,9 +41,12 @@ public interface AppointmentMapper {
 	@Select("SELECT * FROM APPOINTMENT WHERE APPOINTMENT_ID = #{appointmentId}")
 	public Appointment getAppointmentById(@Param("appointmentId") long appointmentId);
 	
+	@Select("SELECT START_DATE FROM APPOINTMENT WHERE APPOINTMENT_ID = #{appointmentId}")
+	public Date getDate(@Param("appointmentId") long appointmentId);
+	
 	@Update("UPDATE APPOINTMENT SET CANCEL_DATE = CURRENT_TIMESTAMP() WHERE APPOINTMENT_ID = #{appointmentId}")
 	public void cancelAppointment(@Param("appointmentId") long appointmentId);
 	
-	@Update("UPDATE APPOINTMENT SET START_DATE = #{newDate} WHERE APPOINTMENT_ID = #{appointmentId}")
+	@Update("UPDATE APPOINTMENT SET START_DATE = #{newDate}, CAN_SWITCH_TO = NULL WHERE APPOINTMENT_ID = #{appointmentId}")
 	public void changeDate(@Param("appointmentId") long appointmentId, @Param("newDate") Date newDate);
 }

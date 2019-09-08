@@ -25,16 +25,16 @@ public class Appointment {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public int getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	public long getPatientId() {
+	public Long getPatientId() {
 		return patientId;
 	}
-	public void setPatientId(long patientId) {
+	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
 	}
 	public String getVisitType() {

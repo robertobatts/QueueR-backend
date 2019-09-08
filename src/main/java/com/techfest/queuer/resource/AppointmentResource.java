@@ -11,34 +11,36 @@ import com.techfest.queuer.domain.Appointment;
 public class AppointmentResource {
 	
 	private Long appointmentId;
-	private Date startDate;
+	private Long startDate;
 	private Integer duration;
 	private String visitType;
-	private Date cancelDate;
+	private Long cancelDate;
 	private AppointmentResource switchableAppointment;
 	
 	public AppointmentResource(Appointment appointment) {
 		if (appointment != null) {
 			this.appointmentId = appointment.getAppointmentId();
-			this.startDate = appointment.getStartDate();
+			if (appointment.getStartDate() != null) 
+				this.startDate = appointment.getStartDate().getTime();
 			this.duration = appointment.getDuration();
 			this.visitType = appointment.getVisitType();
-			this.cancelDate = appointment.getCancelDate();
+			if (appointment.getCancelDate() != null)
+				this.cancelDate = appointment.getCancelDate().getTime();
 			this.switchableAppointment = new AppointmentResource(appointment.getSwitchableAppointment());
 		}
 	}
 
 
     @JsonProperty("id")
-	public long getAppointmentId() {
+	public Long getAppointmentId() {
 		return appointmentId;
 	}
 
-	public Date getStartDate() {
+	public Long getStartDate() {
 		return startDate;
 	}
 
-	public int getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
@@ -46,7 +48,7 @@ public class AppointmentResource {
 		return visitType;
 	}
 
-	public Date getCancelDate() {
+	public Long getCancelDate() {
 		return cancelDate;
 	}
 
